@@ -1,0 +1,6 @@
+-main Main.hx
+-lib random
+-lib MSignal
+-neko Main.n
+-debug
+-cmd neko Main.n
