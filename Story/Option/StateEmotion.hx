@@ -6,23 +6,27 @@ import story.option.Option;
 
 class StateEmotion extends Option{
 
-    //Structure
-    //{name} is feeling {strength}{emotion}
-    //Eg- Josh is feeling very happy
+	//Structure
+	//{name} is {strength}{emotion}
+	//Eg- Josh is very happy
 
-    var who:story.entity.Person;
-    public function new (ofWho) {
-        super();
-        who=ofWho;
-    }
+	var who:story.entity.Person;
+	public function new (ofWho) {
+		super();
+		who=ofWho;
+		focus=who;
+	}
 
-    override public function onTake (){
-        //Ran when this option is the chosen option
-        super.onTake();
+	override public function onTake (){
+		//Ran when this option is the chosen option
+		super.onTake();
 
-        var reflectionEmotion = Random.enumConstructor(EmotionType);
-        trace(story.language.Pronoun.tryPronounOf(who)+" is feeling "+
-			who.emotionManager.emotions.get(reflectionEmotion).getStrengthWord() +" "+
-			who.emotionManager.emotions.get(reflectionEmotion).word);
-    }
+
+		//var reflectionEmotion = Random.enumConstructor(EmotionType);
+		var reflectionEmotion = who.emotionManager.getStrongestEmotion();
+
+		return(story.language.Pronoun.tryPronounOf(who)+" is "+
+			reflectionEmotion.getStrengthWord() +" "+
+			reflectionEmotion.word);
+	}
 }

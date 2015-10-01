@@ -10,9 +10,9 @@ class RandomPerson {
         person.gender = Random.enumConstructor(story.entity.Person.Gender);
 
         if (person.gender == story.entity.Person.Gender.Male){
-            person.name = Random.fromArray(['Daniel','Josh','Matt','Doug','Perry','Gregory','Trent','Bob','Rick','Ted','Jason','Lewis']);
+            person.name = Random.fromArray(['Daniel','Josh','Matt','Doug','Perry','Gregory','Trent','Bob','Rick','Ted','Jason','Lewis','Brian','David','Walter','Peter','John','James','Robert','Thomas','Mark','George']);
         }else{
-            person.name = Random.fromArray(['Sam','Ruby','Madison','Emily','Natasha','Chloe','Emma','Olivia','Erin','Abby']);
+            person.name = Random.fromArray(['Sam','Ruby','Madison','Emily','Natasha','Chloe','Emma','Olivia','Erin','Abby','Mary','Linda','Maria','Sarah','Amy','Helen','Carol','Jessica','Lisa','Ann','Alice','Nicole']);
         }
 
 

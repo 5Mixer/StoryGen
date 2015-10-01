@@ -23,7 +23,19 @@ class EmotionManager {
     }
 
     public function getStrongestEmotion () {
+        var emotionArray = Lambda.array(emotions);
 
+        //Sorts emotions into oposite strength order, so [0] is strongest
+        emotionArray.sort(function(a:Emotion,b:Emotion) {
+		    if (a.strength == b.strength)
+		        return 0;
+		    if (a.strength > b.strength)
+		        return -1;
+		    else
+		        return 1;
+		});
+
+        return emotionArray[0]; //Returns strongest emotion.
     }
 }
 

@@ -7,10 +7,10 @@ class Output {
 	public function new () {};
 
 	public function print (text:Dynamic,?info:Dynamic){
-		
+
 		if (info.customParams == null){
 
-			Sys.println(text);
+			Sys.print(text);
 
 		}else{
 

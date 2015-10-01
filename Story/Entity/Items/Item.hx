@@ -10,9 +10,11 @@ class Item implements Entity implements Describable {
 	public var hasBeenDescribed:Bool = false;
 	public var adjectives:Array<String>;
 	public var onUseSignal:Signal0 = new Signal0();
+	public var rarity:Int = 2; //On a scale of one to ten, how rare is this item?
+	public var optionsUsedIn:Array<story.option.Option>;
 
 	public function new () {
-
+		optionsUsedIn = new Array<story.option.Option>();
 	}
 
 	public function onUse (){

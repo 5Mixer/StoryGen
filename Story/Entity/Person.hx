@@ -11,15 +11,18 @@ class Person implements Entity{
 	public var gender(default,set):Gender;
 	public var pronoun:String;
 	public var emotionManager:EmotionManager;
+	public var optionsUsedIn:Array<story.option.Option>;
 
 	public function new (){
 		emotionManager = new EmotionManager();
+
+		optionsUsedIn = new Array<story.option.Option>();
 
 		inventory.push(story.util.RandomItem.get());
 	}
 
 	public function makeOptions (optionsList:Array<story.option.Option>){
-		var o =new story.option.StateEmotion(this);
+		var o = new story.option.StateEmotion(this);
 		o.score = Random.int(1,10);
 		optionsList.push(o);
 

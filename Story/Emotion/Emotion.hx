@@ -23,7 +23,7 @@ class Emotion {
     public function getStrengthWord () {
         if (strength > 7){
             return "extremly";
-        }else if (strength > 4){
+        }else if (strength > 3){
             return "fairly";
         }else {
             return "a little";
