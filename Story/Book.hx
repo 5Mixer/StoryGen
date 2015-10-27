@@ -22,7 +22,7 @@ class Book {
 		turn();
 	}
 
-	public function generateCharacters (num:Int = 2) {
+	public function generateCharacters (num:Int = 1) {
 		for (i in 0...num){
 			allCharacters.push(story.util.RandomPerson.get());
 		}
@@ -46,8 +46,11 @@ class Book {
 
 		//Reduce likelyhood of repeating setence types.
 		for (option in options){
-			if (Type.getClass(option) == Type.getClass(optionsTaken.last())) option.score-=1;
+			if (Type.getClass(option) == Type.getClass(optionsTaken.last())) option.score-=10;
 
+			for (optionsTaken in option.focus.optionsUsedIn){
+				if (Type.getClass(option) == Type.getClass(optionsTaken)) option.score -= 30;
+			}
 		}
 
 		//Decide on best option
@@ -57,7 +60,7 @@ class Book {
 		var output:String;
 
 		if (option.focus == nextBestOption.focus && option.focus != null){
-			var conjunction = new story.option.Conjunction(option,nextBestOption);
+			var conjunction = new story.option.Conjunction(option,nextBestOption,', ');
 			output = conjunction.onTake();
 			optionsTaken.add(option);
 		}else{
@@ -65,17 +68,20 @@ class Book {
 			optionsTaken.add(option); //We 'add' it to the end of this 'list', don't push it. (Pushing sets it as first element)
 
 		}
-
+		Sys.println("Goodnessness "+option.score);
 		output = capitilise(output);
 		output += ". ";
 		trace(output);
 		
 		
-		Sys.sleep(1);
+		Sys.sleep(0.5);
 		turn(); //Repeat
 	}
 
 	public function decideOption () {
+
+		if (options[0] == null) throw("----WARNING: No options! Oh no!----");
+
 		//Sort all of our options by how good they are.
 		options.sort(function(a:story.option.Option,b:story.option.Option) {
 		    if (a.score == b.score)
@@ -85,7 +91,7 @@ class Book {
 		    else
 		        return 1;
 		});
-		if (options[0] == null) trace("----WARNING: No options! Oh no!----");
+		
 		return options;
 	}
 

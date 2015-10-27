@@ -4,7 +4,7 @@ class Conjunction extends story.option.Option{
     var ca:story.option.Option; //Clause (option) A&B
     var cb:story.option.Option;
     var conjunction:String;
-    public function new (clauseA,clauseB,_conjunction="and"){
+    public function new (clauseA,clauseB,_conjunction=" and "){
         ca = clauseA;
         cb = clauseB;
         focus = null;
@@ -15,7 +15,7 @@ class Conjunction extends story.option.Option{
         super.onTake();
         var output:String;
         output = ca.onTake();
-        output += (" and ");
+        output += (conjunction);
         output += cb.onTake();
         return output;
 

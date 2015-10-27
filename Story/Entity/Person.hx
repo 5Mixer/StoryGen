@@ -23,7 +23,7 @@ class Person implements Entity{
 
 	public function makeOptions (optionsList:Array<story.option.Option>){
 		var o = new story.option.StateEmotion(this);
-		o.score = Random.int(1,10);
+		o.score = emotionManager.getStrongestEmotion().strength - 3;
 		optionsList.push(o);
 
 		var i = new story.option.DescribeCharactersItem(this,Random.fromArray(inventory));

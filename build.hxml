@@ -1,6 +1,16 @@
+#Set prog start
 -main Main.hx
+
+#Libraries
 -lib random
 -lib MSignal
+-lib websocket
+
 -neko Main.n
 -debug
 -cmd neko Main.n
+
+
+#CPP Compile
+#-cpp bin
+#-cmd /bin/Main.hx
