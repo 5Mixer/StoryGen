@@ -17,7 +17,7 @@ class DescribeCharactersItem extends Option{
         super();
         owner=person;
         item=_item;
-        focus=owner; //TODO: Allow for both the item and the owner to be the focus.
+        focus=person; //TODO: Allow for both the item and the owner to be the focus.
 
         if (Std.is(item,story.entity.Describable) == false){
             throw 'A non describable entity was asked to be descibed. Crash!';

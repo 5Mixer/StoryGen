@@ -17,12 +17,12 @@ class Book {
 
 	public function makeStory (){
 		trace('\n --Story Creator Begun --\n\n');
-		generateCharacters();
+		generateCharacters(3);
 
 		turn();
 	}
 
-	public function generateCharacters (num:Int = 1) {
+	public function generateCharacters (num:Int = 6) {
 		for (i in 0...num){
 			allCharacters.push(story.util.RandomPerson.get());
 		}
@@ -45,12 +45,21 @@ class Book {
 		}
 
 		//Reduce likelyhood of repeating setence types.
+		var i = 1;
 		for (option in options){
+
 			//if (Type.getClass(option) == Type.getClass(optionsTaken.last())) option.score-=1;
 
 			for (pastOption in optionsTaken){
-				if (Type.getClass(option) == Type.getClass(pastOption) && option.focus == pastOption.focus) options.remove(option);//.score -= 3;
+
+				if (Type.getClass(option) == Type.getClass(pastOption) && option.focus == pastOption.focus){
+					//trace("\n\n\nAvaliable option of type " + Type.getClassName(Type.getClass(option)) + " and focus of "+option.focus.name);
+					//trace("\nPast option of type " + Type.getClassName(Type.getClass(pastOption)) + " and focus of "+pastOption.focus.name);
+					options.splice(options.length-i, 1);
+				}
+
 			}
+			i++;
 		}
 
 		//Decide on best option
@@ -67,7 +76,7 @@ class Book {
 			//A conjunction should add all sentences to the log, but ignore they were in a conjunction
 			optionsTaken.add(option);
 			optionsTaken.add(nextBestOption);
-		}else{
+		}else {
 			output = option.onTake();
 			optionsTaken.add(option); //We 'add' it to the end of this 'list', don't push it. (Pushing sets it as first element)
 
@@ -106,10 +115,10 @@ class Book {
 		return firstChar.toUpperCase()+restOfString.toLowerCase();
 	}
 
-	/*public function removeOption (option) {
+	public function removeOption (option) {
 		var i = options.length;
 		while (i-- > 0)
-		   if (options[i] == option)
+		   if (Type.getClass(option) == Type.getClass(options[i]) && option.focus == options[i].focus)
 		      options.splice(i, 1);
-	}*/ //This is BROKEN. Currently there is no way of comparing options, even with ID's,as they regenerate every turn.
+	} //This is BROKEN. Currently there is no way of comparing options, even with ID's,as they regenerate every turn.
 }
