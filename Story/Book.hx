@@ -46,34 +46,37 @@ class Book {
 
 		//Reduce likelyhood of repeating setence types.
 		for (option in options){
-			if (Type.getClass(option) == Type.getClass(optionsTaken.last())) option.score-=10;
+			//if (Type.getClass(option) == Type.getClass(optionsTaken.last())) option.score-=1;
 
-			for (optionsTaken in option.focus.optionsUsedIn){
-				if (Type.getClass(option) == Type.getClass(optionsTaken)) option.score -= 30;
+			for (pastOption in optionsTaken){
+				if (Type.getClass(option) == Type.getClass(pastOption) && option.focus == pastOption.focus) options.remove(option);//.score -= 3;
 			}
 		}
 
 		//Decide on best option
+		var optionsAvaliable = decideOption().length;
 		var option = decideOption()[0];
 		var nextBestOption = decideOption()[1];
 
 		var output:String;
 
-		if (option.focus == nextBestOption.focus && option.focus != null){
+		if (optionsAvaliable > 1 && option.focus == nextBestOption.focus && option.focus != null){
 			var conjunction = new story.option.Conjunction(option,nextBestOption,', ');
 			output = conjunction.onTake();
+
+			//A conjunction should add all sentences to the log, but ignore they were in a conjunction
 			optionsTaken.add(option);
+			optionsTaken.add(nextBestOption);
 		}else{
 			output = option.onTake();
 			optionsTaken.add(option); //We 'add' it to the end of this 'list', don't push it. (Pushing sets it as first element)
 
 		}
-		Sys.println("Goodnessness "+option.score);
 		output = capitilise(output);
 		output += ". ";
 		trace(output);
-		
-		
+
+
 		Sys.sleep(0.5);
 		turn(); //Repeat
 	}
@@ -91,16 +94,16 @@ class Book {
 		    else
 		        return 1;
 		});
-		
+
 		return options;
 	}
 
 	public function capitilise (str){
 		//TODO: Move to language package
-		var firstChar:String = str.substr(0, 1); 
-		var restOfString:String = str.substr(1, str.length); 
-		
-		return firstChar.toUpperCase()+restOfString.toLowerCase(); 
+		var firstChar:String = str.substr(0, 1);
+		var restOfString:String = str.substr(1, str.length);
+
+		return firstChar.toUpperCase()+restOfString.toLowerCase();
 	}
 
 	/*public function removeOption (option) {

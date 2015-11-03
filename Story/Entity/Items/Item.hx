@@ -21,4 +21,11 @@ class Item implements Entity implements Describable {
 		onUseSignal.dispatch();
 	}
 
+	//Able to decide, off specific person attributes, how much a character should have this item.
+	//This returning 10 means it is perfectly suitable, and 1 means it is extremly unsuitable.
+	//It will not always pick the item that returns the highest number though, this just weights an average.
+	public static function suitableForPerson (person:story.entity.Person){
+		return 5;
+	}
+
 }

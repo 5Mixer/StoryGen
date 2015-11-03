@@ -3,6 +3,7 @@ package story.entity;
 import story.entity.items.Item;
 import story.emotion.EmotionManager;
 import story.entity.Entity;
+import Random;
 
 class Person implements Entity{
 	public var age:Int;
@@ -18,7 +19,25 @@ class Person implements Entity{
 
 		optionsUsedIn = new Array<story.option.Option>();
 
-		inventory.push(story.util.RandomItem.get());
+		////TODO: MAKE THE ITEM GIVEN DIFFERENT PER PERSON.
+
+		// var weightsTotal = 0;
+		// var weightMap = new Map<Int,{suitableForPerson : story.entity.Person -> Int }>();
+		// for (item in story.entity.items.ItemRegistry.items){
+		// 	var suitability = item.suitableForPerson(this);
+		// 	weightsTotal += suitability;
+		// 	weightMap.set(weightsTotal,item);
+		// }
+		// var randomIndex = Random.int(0,weightsTotal);
+		//
+		// var item:Dynamic;
+		// for (index in weightMap.keys()){
+		// 	if (index < randomIndex){
+		// 		item = Type.createInstance(weightMap[index],[]);
+		// 	}
+		// }
+
+		inventory.push(story.util.RandomItem.get()); //inventory.push(item); //
 	}
 
 	public function makeOptions (optionsList:Array<story.option.Option>){

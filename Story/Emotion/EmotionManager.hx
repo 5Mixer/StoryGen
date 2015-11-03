@@ -18,7 +18,7 @@ class EmotionManager {
         emotions.set(EmotionType.Happy, new Emotion('happy').randomizeStrength());
         emotions.set(EmotionType.Sad,   new Emotion('sad').randomizeStrength());
         emotions.set(EmotionType.Angry, new Emotion('angry').randomizeStrength());
-        emotions.set(EmotionType.Scared, new Emotion('scared').randomizeStrength());
+        emotions.set(EmotionType.Scared,new Emotion('scared').randomizeStrength());
 
     }
 
