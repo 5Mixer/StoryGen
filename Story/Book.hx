@@ -17,7 +17,7 @@ class Book {
 
 	public function makeStory (){
 		trace('\n --Story Creator Begun --\n\n');
-		generateCharacters(3);
+		generateCharacters(5);
 
 		turn();
 	}
@@ -42,26 +42,34 @@ class Book {
 		for (char in allCharacters){
 			char.makeOptions (options); //Tell every character to give us some options for our next sentence/turn
 			char.emotionManager.getStrongestEmotion();
+
 		}
 
-		//Reduce likelyhood of repeating setence types.
-		var i = 1;
-		for (option in options){
+		//Reduce likelyhood ofuoi repeating setence types.
 
+		var optionsLength = options.length;
+
+		for (i in 0...optionsLength+1){
 			//if (Type.getClass(option) == Type.getClass(optionsTaken.last())) option.score-=1;
+			var option = options[optionsLength-i];
 
 			for (pastOption in optionsTaken){
 
 				if (Type.getClass(option) == Type.getClass(pastOption) && option.focus == pastOption.focus){
+
 					//trace("\n\n\nAvaliable option of type " + Type.getClassName(Type.getClass(option)) + " and focus of "+option.focus.name);
 					//trace("\nPast option of type " + Type.getClassName(Type.getClass(pastOption)) + " and focus of "+pastOption.focus.name);
-					options.splice(options.length-i, 1);
+
+					//options.splice(optionsLength-i, 1);
+					options.splice(optionsLength-i, 1);
+					//trace("Removed "+i+", new length is "+options.length+"\n");
+					//i++;
+					//break;
 				}
-
 			}
-			i++;
-		}
 
+		}
+		
 		//Decide on best option
 		var optionsAvaliable = decideOption().length;
 		var option = decideOption()[0];
@@ -83,7 +91,8 @@ class Book {
 		}
 		output = capitilise(output);
 		output += ". ";
-		trace(output);
+		trace(output+"\n");
+		trace(optionsTaken.length+"\n");
 
 
 		Sys.sleep(0.5);

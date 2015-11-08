@@ -19,7 +19,7 @@ class Gun extends Item implements Entity implements Describable {
 		super.onUse();
 	}
 
-	public static function suitablenessForPerson (person:story.entity.Person){
+	public static function suitableForPerson (person:story.entity.Person){
 		return person.emotionManager.emotions[EmotionType.Angry].strength;
 	}
 

@@ -3,6 +3,7 @@ package story.entity.items;
 import story.entity.Entity;
 import story.entity.Describable;
 import story.entity.items.Item;
+import story.emotion.EmotionManager;
 
 class Suitcase extends Item implements Entity implements Describable {
 
@@ -17,5 +18,8 @@ class Suitcase extends Item implements Entity implements Describable {
         super.onUse();
     }
 
+    public static function suitableForPerson (person:story.entity.Person){
+		return person.emotionManager.emotions[EmotionType.Happy].strength;
+	}
 
 }

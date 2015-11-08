@@ -6,7 +6,7 @@ class RandomPerson {
         var person = new story.entity.Person ();
 
         //Todo: Allow passing in of set properties.
-        person.age = Random.int(10,50);
+        person.age = Random.int(18,50);
         person.gender = Random.enumConstructor(story.entity.Person.Gender);
 
         if (person.gender == story.entity.Person.Gender.Male){

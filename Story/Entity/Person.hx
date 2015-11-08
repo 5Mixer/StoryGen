@@ -5,6 +5,10 @@ import story.emotion.EmotionManager;
 import story.entity.Entity;
 import Random;
 
+typedef SuitabilityInformation = {
+	public function suitableForPerson (person:story.entity.Person):Int;
+}
+
 class Person implements Entity{
 	public var age:Int;
 	public var name:String;
@@ -14,6 +18,8 @@ class Person implements Entity{
 	public var emotionManager:EmotionManager;
 	public var optionsUsedIn:Array<story.option.Option>;
 
+
+
 	public function new (){
 		emotionManager = new EmotionManager();
 
@@ -21,21 +27,23 @@ class Person implements Entity{
 
 		////TODO: MAKE THE ITEM GIVEN DIFFERENT PER PERSON.
 
-		// var weightsTotal = 0;
-		// var weightMap = new Map<Int,{suitableForPerson : story.entity.Person -> Int }>();
-		// for (item in story.entity.items.ItemRegistry.items){
-		// 	var suitability = item.suitableForPerson(this);
-		// 	weightsTotal += suitability;
-		// 	weightMap.set(weightsTotal,item);
-		// }
-		// var randomIndex = Random.int(0,weightsTotal);
-		//
-		// var item:Dynamic;
-		// for (index in weightMap.keys()){
-		// 	if (index < randomIndex){
-		// 		item = Type.createInstance(weightMap[index],[]);
-		// 	}
-		// }
+		var weightsTotal = 0;
+		var weightMap = new Map<Int,Class<Item>>();
+		for (itemObject in story.entity.items.ItemRegistry.items){
+
+			var suitabilityInfo:SuitabilityInformation = cast (itemObject);
+			var suitability = suitabilityInfo.suitableForPerson(this);
+			weightsTotal += suitability;
+			weightMap.set(weightsTotal,itemObject);
+		}
+		var randomIndex = Random.int(0,weightsTotal);
+
+		var item:Dynamic;
+		for (index in weightMap.keys()){
+			if (index < randomIndex){
+				item = Type.createInstance(cast weightMap[index],[]);
+			}
+		}
 
 		inventory.push(story.util.RandomItem.get()); //inventory.push(item); //
 	}
@@ -46,7 +54,7 @@ class Person implements Entity{
 		optionsList.push(o);
 
 		var i = new story.option.DescribeCharactersItem(this,Random.fromArray(inventory));
-		i.score = Random.int(1,10);
+		i.score = 5;//Random.int(1,10);
 		optionsList.push(i);
 	}
 
