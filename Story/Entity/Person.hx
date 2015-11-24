@@ -3,6 +3,7 @@ package story.entity;
 import story.entity.items.Item;
 import story.emotion.EmotionManager;
 import story.entity.Entity;
+import story.location.Location;
 import Random;
 
 typedef SuitabilityInformation = {
@@ -17,7 +18,7 @@ class Person implements Entity{
 	public var pronoun:String;
 	public var emotionManager:EmotionManager;
 	public var optionsUsedIn:Array<story.option.Option>;
-
+	public var location:Location;
 
 
 	public function new (){
@@ -53,9 +54,14 @@ class Person implements Entity{
 		o.score = emotionManager.getStrongestEmotion().strength - 3;
 		optionsList.push(o);
 
-		var i = new story.option.DescribeCharactersItem(this,Random.fromArray(inventory));
-		i.score = 5;//Random.int(1,10);
+		var item = Random.fromArray(inventory);
+		var i = new story.option.DescribeCharactersItem(this,item);
+		i.score = item.rarity;//Random.int(1,10);
 		optionsList.push(i);
+
+		for (item in inventory){
+			item.makeOptions(this,optionsList);
+		}
 	}
 
 	public function setName (newName){

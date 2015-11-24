@@ -23,8 +23,15 @@ class Book {
 	}
 
 	public function generateCharacters (num:Int = 6) {
+		var genericRoom:story.location.Location = new story.location.Location();
+		genericRoom.name = "room";
+		genericRoom.adjectives = ["large","empty","white","plain"];
+
 		for (i in 0...num){
-			allCharacters.push(story.util.RandomPerson.get());
+			var p = story.util.RandomPerson.get();
+			genericRoom.characters.push(p);
+			p.location = genericRoom;
+			allCharacters.push(p);
 		}
 
 		for (char in allCharacters){
@@ -69,7 +76,7 @@ class Book {
 			}
 
 		}
-		
+
 		//Decide on best option
 		var optionsAvaliable = decideOption().length;
 		var option = decideOption()[0];
@@ -85,18 +92,28 @@ class Book {
 			optionsTaken.add(option);
 			optionsTaken.add(nextBestOption);
 		}else {
-			output = option.onTake();
+			output = capitilise(option.onTake());
 			optionsTaken.add(option); //We 'add' it to the end of this 'list', don't push it. (Pushing sets it as first element)
 
 		}
-		output = capitilise(output);
-		output += ". ";
+
+		var lastChar = output.charAt(output.length);
+		if (lastChar != '!' && lastChar != '.')
+			output += ". ";
+
 		trace(output+"\n");
-		trace(optionsTaken.length+"\n");
 
 
 		Sys.sleep(0.5);
 		turn(); //Repeat
+	}
+
+	public function capitilise (str){
+		//TODO: Move to language package
+		var firstChar:String = str.substr(0, 1);
+		var restOfString:String = str.substr(1, str.length);
+
+		return firstChar.toUpperCase()+restOfString.toLowerCase();
 	}
 
 	public function decideOption () {
@@ -116,13 +133,7 @@ class Book {
 		return options;
 	}
 
-	public function capitilise (str){
-		//TODO: Move to language package
-		var firstChar:String = str.substr(0, 1);
-		var restOfString:String = str.substr(1, str.length);
 
-		return firstChar.toUpperCase()+restOfString.toLowerCase();
-	}
 
 	public function removeOption (option) {
 		var i = options.length;

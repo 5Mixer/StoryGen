@@ -10,11 +10,9 @@ class Option {
 
     public function new () {}
 
-    public function onTake ():String{
+    dynamic public function onTake ():String{
         //Ran when this option is the chosen option
         onTakeSignal.dispatch();
         return "";
     }
-
-
 }
