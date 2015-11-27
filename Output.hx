@@ -4,6 +4,8 @@ import Sys;
 
 import neko.vm.Thread;
 
+using StringTools;
+
 class Output{
 
 	var server:Server;
@@ -11,6 +13,7 @@ class Output{
 	private static var ansiColors:Map<String,String> = new Map();
 	private static var textCodes:Map<String,String> = new Map();
 
+	public static function name (name) return ansiColors['name']+name+ansiColors['default'];
 
 	//This class managers all output.
 	public function new () {
@@ -26,20 +29,27 @@ class Output{
 		ansiColors['cyan'] = '\033[0;36m';
 		ansiColors['grey'] = '\033[0;37m';
 		ansiColors['white'] = '\033[1;37m';
+		ansiColors['default'] = '\033[1;39m';
 
 		// reuse it for quick lookups of colors to log levels
 		ansiColors['debug'] = ansiColors['cyan'];
 		ansiColors['info'] = ansiColors['white'];
 		ansiColors['error'] = ansiColors['magenta'];
 		ansiColors['assert'] = ansiColors['red'];
-		ansiColors['default'] = ansiColors['grey'];
-		ansiColors['name'] = ansiColors['green'];
+		ansiColors['default'] = ansiColors['default'];
+		ansiColors['name'] = ansiColors['white'];
 
 		//y textCodes['%n'] = ansiColors['name'];
 	}
 
 
-	public function print (text:Dynamic,?info:Dynamic){
+	public function print (text:String,?info:Dynamic){
+		var output = text;
+
+		//output.split("%n%").join(ansiColors['name']);
+		text = text.replace("%n%",ansiColors['name']);
+		text = text.replace("%%",ansiColors['default']);
+
 
 		if (info.customParams == null){
 
@@ -49,7 +59,7 @@ class Output{
 		}else{
 
 			if (info.customParams[0] == "Yell"){
-				Sys.println(text.toUpperCase());
+				Sys.println(output.toUpperCase());
 			}
 
 		}

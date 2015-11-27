@@ -4,6 +4,8 @@ import story.entity.Entity;
 import story.emotion.EmotionManager;
 import story.option.Option;
 
+using Output;
+
 class StateEmotion extends Option{
 
 	//Structure
@@ -25,7 +27,7 @@ class StateEmotion extends Option{
 		//var reflectionEmotion = Random.enumConstructor(EmotionType);
 		var reflectionEmotion = who.emotionManager.getStrongestEmotion();
 
-		return(story.language.Pronoun.tryPronounOf(who)+" is "+
+		return(story.language.Pronoun.tryPronounOf(who).name()+" is "+
 			reflectionEmotion.getStrengthWord() +" "+
 			reflectionEmotion.word);
 	}

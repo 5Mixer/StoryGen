@@ -6,6 +6,8 @@ import story.language.IndefiniteArticle;
 import story.option.Option;
 import Random;
 
+using Output;
+
 class DescribeCharactersItem extends Option{
     //Structure
     //{name} has a/an {adjective},{adjective} {item-name}
@@ -43,7 +45,7 @@ class DescribeCharactersItem extends Option{
             adjectivesAfterFirst += ", "+adjectivesToUse[adjectiveIndex];
         }
 
-        return(story.language.Pronoun.tryPronounOf(owner)+" has "+
+        return( story.language.Pronoun.tryPronounOf(owner).name()+" has "+
                 IndefiniteArticle.nextWordIs(adjectivesToUse[0]) +" "
                 +adjectivesToUse[0]+adjectivesAfterFirst+" "+ item.name);
     }

@@ -69,7 +69,7 @@ class Book {
 			}
 
 		}
-		
+
 		//Decide on best option
 		var optionsAvaliable = decideOption().length;
 		var option = decideOption()[0];
@@ -91,8 +91,7 @@ class Book {
 		}
 		output = capitilise(output);
 		output += ". ";
-		trace(output+"\n");
-		trace(optionsTaken.length+"\n");
+		trace(output);
 
 
 		Sys.sleep(0.5);
@@ -119,7 +118,18 @@ class Book {
 	public function capitilise (str){
 		//TODO: Move to language package
 		var firstChar:String = str.substr(0, 1);
-		var restOfString:String = str.substr(1, str.length);
+
+		var i = 0;
+		while (i < str.length){
+			firstChar = str.substr(i, 1);
+			trace("I: "+i+"  firstChar: "+firstChar+"\n");
+			if (["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"].indexOf(firstChar.toLowerCase()) > 0){
+				break;
+			}
+			i++;
+		}
+
+		var restOfString:String = str.substr(i, str.length);
 
 		return firstChar.toUpperCase()+restOfString.toLowerCase();
 	}
