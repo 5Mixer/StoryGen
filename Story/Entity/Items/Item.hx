@@ -17,6 +17,10 @@ class Item implements Entity implements Describable {
 		optionsUsedIn = new Array<story.option.Option>();
 	}
 
+	public function makeOptions (parent:Entity,optionsList:Array<story.option.Option>){
+
+	}
+
 	public function onUse (){
 		onUseSignal.dispatch();
 	}

@@ -16,9 +16,18 @@ class Conjunction extends story.option.Option{
         var output:String;
         output = ca.onTake();
         output += (conjunction);
+        output = capitilise(output);
         output += cb.onTake();
         return output;
 
     }
+
+    public function capitilise (str){
+		//TODO: Move to language package
+		var firstChar:String = str.substr(0, 1);
+		var restOfString:String = str.substr(1, str.length);
+
+		return firstChar.toUpperCase()+restOfString.toLowerCase();
+	}
 
 }

@@ -42,6 +42,11 @@ class Output{
 		//y textCodes['%n'] = ansiColors['name'];
 	}
 
+	public static function getPlainText (text:String){
+
+		text = text.replace("%n%","");
+		text = text.replace("%%","");
+	}
 
 	public function print (text:String,?info:Dynamic){
 		var output = text;
