@@ -11,6 +11,8 @@ class Book {
 	var optionsTaken:List<story.option.Option>; //A log of previosly taken options
 	var options:Array<story.option.Option>;     //The options that are avaliable this turn
 
+	var mainCharacter:story.entity.Person;
+
 	public function new () {
 		allCharacters = new Array<story.entity.Person>();
 		allLocations = new Array<story.location.Location>();
@@ -22,12 +24,18 @@ class Book {
 		trace('\n --Story Creator Begun --\n\n');
 		generateLocations();
 
+		mainCharacter = story.util.RandomPerson.get();
+		//Because it is in this location, it wil be automagically added to 'allCharacters'
+		mainCharacter.location = allLocations[0];
+		allLocations[0].characters.push(mainCharacter);
+
+		//Add all locations characters to 'allLocations'
 		for (place in allLocations)
 			for (person in place.characters)
 				allCharacters.push(person);
 
 
-
+		//Give a reading of 'allCharacters'
 		for (char in allCharacters){
 			trace("{ Name: "+char.name+", Age: "+char.age+", Gender: "+char.gender+", Location: "+char.location.name+" }; \n");
 		}
@@ -57,10 +65,15 @@ class Book {
 
 		options = new Array<story.option.Option>(); //TODO: Optimize clearing of Array
 
+		/* UNCOMMENT IF NO MAIN CHARACTER
 		for (char in allCharacters){
 			char.makeOptions (options); //Tell every character to give us some options for our next sentence/turn
 			char.emotionManager.getStrongestEmotion();
 
+		}
+		*/
+		for (char in mainCharacter.location.characters){
+			char.makeOptions(options);
 		}
 
 		//Reduce likelyhood ofuoi repeating setence types.
