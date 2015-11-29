@@ -28,6 +28,9 @@ class ChangeLocation extends Option{
         location=_location;
         focus=person; //TODO: Allow for both the item and the place to be the focus.
 
+		verb = Random.fromArray(["walked","strolled","jogged","paced"]);
+		adverb = Random.fromArray(["quickly","slowly"]);
+		
     }
 
     override public function onTake (){

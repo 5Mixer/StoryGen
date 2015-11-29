@@ -3,6 +3,8 @@ package story;
 import Sys;
 import ComplexString;
 
+import msignal.Signal;
+
 class Book {
 
 	var allCharacters:Array<story.entity.Person>;
@@ -11,12 +13,19 @@ class Book {
 	var optionsTaken:List<story.option.Option>; //A log of previosly taken options
 	var options:Array<story.option.Option>;     //The options that are avaliable this turn
 
+	//A list of options that will be added every turn. Will not be removed at end of turn,
+	//either stay put or remove themselves.
+	var futureOptions:Array<story.option.Option>;
+
 	var mainCharacter:story.entity.Person;
+
+	public static var onAnyOptionFinish = new Signal1<story.option.Option>();
 
 	public function new () {
 		allCharacters = new Array<story.entity.Person>();
 		allLocations = new Array<story.location.Location>();
 		options = new Array<story.option.Option>();
+		futureOptions = new Array<story.option.Option>();
 		optionsTaken = new List<story.option.Option>();
 	}
 
@@ -77,8 +86,13 @@ class Book {
 
 		}
 		*/
+
+		for (option in futureOptions){
+			options.push(option);
+		}
+
 		for (char in mainCharacter.location.characters){
-			char.makeOptions(options);
+			char.makeOptions(options,futureOptions);
 		}
 
 		//Reduce likelyhood ofuoi repeating setence types.
@@ -96,16 +110,18 @@ class Book {
 					//trace("\n\n\nAvaliable option of type " + Type.getClassName(Type.getClass(option)) + " and focus of "+option.focus.name);
 					//trace("\nPast option of type " + Type.getClassName(Type.getClass(pastOption)) + " and focus of "+pastOption.focus.name);
 
-					//options.splice(optionsLength-i, 1);
 					options.splice(optionsLength-i, 1);
-					//trace("Removed "+i+", new length is "+options.length+"\n");
-					//i++;
-					//break;
+
 				}
 			}
 
 		}
 
+		//Check that we have atleast one option
+		if (decideOption() == null) {
+			Sys.println("\nNo more options left.");
+			return;
+		}
 		//Decide on best option
 		var optionsAvaliable = decideOption().length;
 		var option = decideOption()[0];
@@ -117,12 +133,18 @@ class Book {
 			var conjunction = new story.option.Conjunction(option,nextBestOption,', ');
 			output = conjunction.onTake();
 
+
+			onAnyOptionFinish.dispatch(conjunction);
+
 			//A conjunction should add all sentences to the log, but ignore they were in a conjunction
 			optionsTaken.add(option);
 			optionsTaken.add(nextBestOption);
 		}else {
 			var string:ComplexString = option.onTake();
 			output.addComplexString(string);
+
+			onAnyOptionFinish.dispatch(option);
+
 			optionsTaken.add(option); //We 'add' it to the end of this 'list', don't push it. (Pushing sets it as first element)
 
 			//TODO: Clean below.
@@ -136,6 +158,7 @@ class Book {
 
 			}
 		}
+
 
 		var lastElement = output.elements[output.elements.length-1];
 		var lastChar = lastElement.getPlainText().charAt(lastElement.getPlainText().length);
@@ -159,7 +182,7 @@ class Book {
 	public function decideOption () {
 
 		if (options[0] == null) {
-			Sys.exit(0);
+			return null;
 		}
 
 		//Sort all of our options by how good they are.

@@ -19,7 +19,10 @@ class Gun extends Item implements Entity implements Describable {
 
 	}
 
-	override public function makeOptions (parent:Entity,optionsList:Array<story.option.Option>){
+	override public function makeOptions (parent:Entity,
+										  optionsList:Array<story.option.Option>,
+										  futureOptions:Array<story.option.Option>){
+
 		if (Std.is(parent,Person)){
 			//'Holder' of this item is a person, not a room or anything.
 			var person = cast(parent,Person);
@@ -31,6 +34,7 @@ class Gun extends Item implements Entity implements Describable {
 
 				var possesivePronoun = (person.gender == story.entity.Gender.Male)? "his" : "her";
 
+
 				shootGunOption.onTake = function ():ComplexString {
 					for (neighborPerson in person.location.characters){
 						if (neighborPerson != person){
@@ -38,10 +42,33 @@ class Gun extends Item implements Entity implements Describable {
 							neighborPerson.emotionManager.emotions[EmotionType.Scared].strength += 5;
 							if (neighborPerson.emotionManager.emotions[EmotionType.Scared].strength > 10)
 								neighborPerson.emotionManager.emotions[EmotionType.Scared].strength = 9;
+
+							var evacuateRoom = new story.option.TemporaryOption(4);
+							evacuateRoom.focus = neighborPerson;
+							evacuateRoom.onTake = function () {
+								var leave = new story.option.ChangeLocation(neighborPerson,Random.fromArray(person.location.accessibleLocations));
+
+								return new ComplexString().addComplexString(leave.onTake())
+														  .addPlain(" because ")
+													  	  .add(new NameElement(person))
+													      .addPlain(" fired "+possesivePronoun+" gun");
+							};
+							evacuateRoom.destroy = function (){
+								futureOptions.remove(evacuateRoom);
+							}
+							evacuateRoom.score = Math.round(neighborPerson.emotionManager.emotions[EmotionType.Scared].strength*(Random.float(0.3,1)));
+
+							futureOptions.push(evacuateRoom);
 						}
 					}
-					return new ComplexString().addPlain("*Gasp!* ").add(new NameElement(person)).addPlain(" just fired ").addPlain(possesivePronoun+" gun");
+
+					return new ComplexString().addPlain("*Gasp!* ")
+											  .add(new NameElement(person))
+											  .addPlain(" just fired ")
+											  .addPlain(possesivePronoun+" gun");
+
 				}
+
 
 				optionsList.push(shootGunOption);
 			}

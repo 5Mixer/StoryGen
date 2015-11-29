@@ -20,7 +20,6 @@ class Person implements Entity{
 	public var optionsUsedIn:Array<story.option.Option>;
 	public var location:Location;
 
-
 	public function new (){
 		emotionManager = new EmotionManager();
 
@@ -49,7 +48,7 @@ class Person implements Entity{
 		inventory.push(story.util.RandomItem.get()); //inventory.push(item); //
 	}
 
-	public function makeOptions (optionsList:Array<story.option.Option>){
+	public function makeOptions (optionsList:Array<story.option.Option>,futureOptions:Array<story.option.Option>){
 		var o = new story.option.StateEmotion(this);
 		o.score = emotionManager.getStrongestEmotion().strength - 3;
 		optionsList.push(o);
@@ -66,7 +65,7 @@ class Person implements Entity{
 		}
 
 		for (item in inventory){
-			item.makeOptions(this,optionsList);
+			item.makeOptions(this,optionsList,futureOptions);
 		}
 	}
 
