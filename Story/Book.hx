@@ -25,6 +25,7 @@ class Book {
 		generateLocations();
 
 		mainCharacter = story.util.RandomPerson.get();
+		mainCharacter.name = "MainCharacter";
 		//Because it is in this location, it wil be automagically added to 'allCharacters'
 		mainCharacter.location = allLocations[0];
 		allLocations[0].characters.push(mainCharacter);
@@ -47,13 +48,13 @@ class Book {
 		var genericRoom:story.location.Location = new story.location.Location();
 		genericRoom.name = "room";
 		genericRoom.adjectives = ["large","empty","white","plain"];
-		genericRoom.generateCharacters(5);
+		genericRoom.generateCharacters(10);
 		allLocations.push(genericRoom);
 
 		var butcher:story.location.Location = new story.location.Location();
 		butcher.name = "butcher";
 		butcher.adjectives = ["busy","small","pink","smelly"];
-		butcher.generateCharacters(5);
+		butcher.generateCharacters(0);
 		allLocations.push(butcher);
 
 		genericRoom.accessibleLocations.push(butcher);
@@ -141,7 +142,7 @@ class Book {
 		if (lastChar != '!' && lastChar != '.')
 			output.addPlain(". ");
 
-		trace(output.getFancyText()+" ");
+		trace(output.getFancyText());
 
 		Sys.sleep(0);
 		turn(); //Repeat

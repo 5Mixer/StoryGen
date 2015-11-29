@@ -36,6 +36,11 @@ class ChangeLocation extends Option{
 
         adjective = Random.fromArray(location.adjectives);
 
+		person.location.characters.remove (person);
+		person.location=location;
+ 		location.characters.push(person);
+
+
         return( new ComplexString()
 				.add(new NameElement(person))
 				.addPlain(" ")
