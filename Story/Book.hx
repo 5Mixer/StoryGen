@@ -55,6 +55,10 @@ class Book {
 		butcher.adjectives = ["busy","small","pink","smelly"];
 		butcher.generateCharacters(5);
 		allLocations.push(butcher);
+
+		genericRoom.accessibleLocations.push(butcher);
+
+		butcher.accessibleLocations.push(genericRoom);
 	}
 
 

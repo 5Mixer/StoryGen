@@ -54,8 +54,12 @@ class Person implements Entity{
 		o.score = emotionManager.getStrongestEmotion().strength - 3;
 		optionsList.push(o);
 
+		var leave = new story.option.ChangeLocation(this,Random.fromArray(location.accessibleLocations));
+		leave.score = 5;
+		optionsList.push(leave);
+
 		//var item = Random.fromArray(inventory);
-		for (item in inventory){			
+		for (item in inventory){
 			var i = new story.option.DescribeCharactersItem(this,item);
 			i.score = Random.int(1,7) * item.rarity;
 			optionsList.push(i);

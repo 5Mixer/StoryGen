@@ -8,6 +8,7 @@ class Location {
     public var inside:Bool;
     public var items:Array<Item>;
     public var characters:Array<story.entity.Person> = new Array<story.entity.Person>();
+	public var accessibleLocations:Array<Location> = new Array<Location>();
 
     public function new () {};
 
