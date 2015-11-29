@@ -18,7 +18,7 @@ class Book {
 
 	public function makeStory (){
 		trace('\n --Story Creator Begun --\n\n');
-		generateCharacters(1);
+		generateCharacters(10);
 
 		turn();
 	}
@@ -97,7 +97,16 @@ class Book {
 			output.addComplexString(string);
 			optionsTaken.add(option); //We 'add' it to the end of this 'list', don't push it. (Pushing sets it as first element)
 
-			output.elements[0].setPlainText(capitilise(output.elements[0].getPlainText()));	
+			//TODO: Clean below.
+			if (Std.is(output.elements[0], NameElement)){
+				var nameElement = cast(output.elements[0],NameElement);
+
+				//If it is a name element we should not change the pronoun focus while capitilising.
+				nameElement.setPlainText(capitilise(nameElement.getPlainTextWithoutChangingFocus())); //Capitilise first elementaa
+			}else{
+				output.elements[0].setPlainText(capitilise(output.elements[0].getPlainText())); //Capitilise first element
+
+			}
 		}
 
 
@@ -123,7 +132,9 @@ class Book {
 
 	public function decideOption () {
 
-		if (options[0] == null) throw("----WARNING: No options! Oh no!----");
+		if (options[0] == null) {
+			Sys.exit(0);
+		}
 
 		//Sort all of our options by how good they are.
 		options.sort(function(a:story.option.Option,b:story.option.Option) {
