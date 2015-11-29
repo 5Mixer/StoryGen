@@ -35,7 +35,7 @@ class Gun extends Item implements Entity implements Describable {
 				var possesivePronoun = (person.gender == story.entity.Gender.Male)? "his" : "her";
 
 
-				shootGunOption.onTake = function ():ComplexString {
+				shootGunOption.onTake = function (futureOptions:Array<story.option.Option>):ComplexString {
 					for (neighborPerson in person.location.characters){
 						if (neighborPerson != person){
 							//Loop through all in room except self
@@ -45,10 +45,10 @@ class Gun extends Item implements Entity implements Describable {
 
 							var evacuateRoom = new story.option.TemporaryOption(4);
 							evacuateRoom.focus = neighborPerson;
-							evacuateRoom.onTake = function () {
+							evacuateRoom.onTake = function (futureOptions:Array<story.option.Option>) {
 								var leave = new story.option.ChangeLocation(neighborPerson,Random.fromArray(person.location.accessibleLocations));
 
-								return new ComplexString().addComplexString(leave.onTake())
+								return new ComplexString().addComplexString(leave.onTake(futureOptions))
 														  .addPlain(" because ")
 													  	  .add(new NameElement(person))
 													      .addPlain(" fired "+possesivePronoun+" gun");

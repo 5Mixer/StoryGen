@@ -28,6 +28,22 @@ class NameElement implements ComplexStringElement {
 		return Output.name(getPlainText());
 	}
 }
+class LocationElement implements ComplexStringElement {
+	var location:story.location.Location;
+
+	public function new (_location) {
+		location = _location;
+	}
+	public function setPlainText (text:String) {
+		location.name = text;
+	}
+	public function getPlainText () {
+		return location.name;
+	}
+	public function getFancyText () {
+		return Output.location(getPlainText());
+	}
+}
 class PlainTextElement implements ComplexStringElement {
 	var text:String;
 	public function new (_text:String) {

@@ -13,10 +13,10 @@ class Conjunction extends story.option.Option{
         conjunction = _conjunction;
         super();
     }
-    override public function onTake(){
-        super.onTake();
+    override public function onTake(futureOptions:Array<story.option.Option>){
+        super.onTake(futureOptions);
         var output:ComplexString = new ComplexString();
-        output.addComplexString (ca.onTake());
+        output.addComplexString (ca.onTake(futureOptions));
 
 		//TODO: Clean below.
 		if (Std.is(output.elements[0], NameElement)){
@@ -33,7 +33,7 @@ class Conjunction extends story.option.Option{
 
 
 
-        output.addComplexString(cb.onTake());
+        output.addComplexString(cb.onTake(futureOptions));
         return output;
 
     }

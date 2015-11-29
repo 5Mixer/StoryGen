@@ -27,9 +27,9 @@ class DescribeCharactersItem extends Option{
         }
     }
 
-    override public function onTake (){
+    override public function onTake (futureOptions:Array<story.option.Option>){
         //Ran when this option is the chosen option
-        super.onTake();
+        super.onTake(futureOptions);
 
         var adjectivesToUse:Array<String> = new Array<String>();
 

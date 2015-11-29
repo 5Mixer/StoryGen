@@ -11,7 +11,7 @@ class Option {
 
     public function new () {}
 
-    dynamic public function onTake ():ComplexString{
+    dynamic public function onTake (futureOptions:Array<story.option.Option>):ComplexString{
         //Ran when this option is the chosen option
         onTakeSignal.dispatch();
         return new ComplexString();

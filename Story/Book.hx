@@ -17,7 +17,7 @@ class Book {
 	//either stay put or remove themselves.
 	var futureOptions:Array<story.option.Option>;
 
-	var mainCharacter:story.entity.Person;
+	public static var mainCharacter:story.entity.Person;
 
 	public static var onAnyOptionFinish = new Signal1<story.option.Option>();
 
@@ -57,13 +57,13 @@ class Book {
 		var genericRoom:story.location.Location = new story.location.Location();
 		genericRoom.name = "room";
 		genericRoom.adjectives = ["large","empty","white","plain"];
-		genericRoom.generateCharacters(10);
+		genericRoom.generateCharacters(1);
 		allLocations.push(genericRoom);
 
 		var butcher:story.location.Location = new story.location.Location();
 		butcher.name = "butcher";
 		butcher.adjectives = ["busy","small","pink","smelly"];
-		butcher.generateCharacters(0);
+		butcher.generateCharacters(1);
 		allLocations.push(butcher);
 
 		genericRoom.accessibleLocations.push(butcher);
@@ -131,7 +131,7 @@ class Book {
 
 		if (optionsAvaliable > 1 && option.focus == nextBestOption.focus && option.focus != null){
 			var conjunction = new story.option.Conjunction(option,nextBestOption,', ');
-			output = conjunction.onTake();
+			output = conjunction.onTake(futureOptions);
 
 
 			onAnyOptionFinish.dispatch(conjunction);
@@ -140,7 +140,7 @@ class Book {
 			optionsTaken.add(option);
 			optionsTaken.add(nextBestOption);
 		}else {
-			var string:ComplexString = option.onTake();
+			var string:ComplexString = option.onTake(futureOptions);
 			output.addComplexString(string);
 
 			onAnyOptionFinish.dispatch(option);

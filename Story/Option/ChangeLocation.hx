@@ -6,10 +6,11 @@ import story.language.IndefiniteArticle;
 import story.option.Option;
 import Random;
 import ComplexString;
+import story.Book;
 
 using Output;
 
-class ChangeLocation extends Option{
+@:tink class ChangeLocation extends Option{
     //Structure
     //{name} {verb} {adverb} to the {adjective} {location-name}
     //Eg- Josh walked quickly to the nearby pet store
@@ -30,12 +31,13 @@ class ChangeLocation extends Option{
 
 		verb = Random.fromArray(["walked","strolled","jogged","paced"]);
 		adverb = Random.fromArray(["quickly","slowly"]);
-		
+
     }
 
-    override public function onTake (){
+	//Needs future options so that we can add the option to describe the room.
+    override public function onTake (futureOptions:Array<story.option.Option>){
         //Ran when this option is the chosen option
-        super.onTake();
+        super.onTake(futureOptions);
 
         adjective = Random.fromArray(location.adjectives);
 
@@ -43,6 +45,18 @@ class ChangeLocation extends Option{
 		person.location=location;
  		location.characters.push(person);
 
+		//If there is someone in the room other than yourself, and you are the main character, describe the room.
+		if (location.characters.length > 1 && person == Book.mainCharacter){
+			var describeRoom = new TemporaryOption(2);
+			describeRoom.score = Random.int(8,9);
+			describeRoom.onTake = function (futureOptions){
+				return new story.option.DescribeRoom(location).onTake(futureOptions);
+			}
+
+			describeRoom.destroy = @do futureOptions.remove(describeRoom);
+
+			futureOptions.push(describeRoom);
+		}
 
         return( new ComplexString()
 				.add(new NameElement(person))

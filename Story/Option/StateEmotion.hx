@@ -21,9 +21,9 @@ class StateEmotion extends Option{
 		focus=who;
 	}
 
-	override public function onTake (){
+	override public function onTake (futureOptions){
 		//Ran when this option is the chosen option
-		super.onTake();
+		super.onTake(futureOptions);
 
 
 		//var reflectionEmotion = Random.enumConstructor(EmotionType);
