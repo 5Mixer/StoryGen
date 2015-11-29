@@ -10,4 +10,17 @@ class Location {
     public var characters:Array<story.entity.Person> = new Array<story.entity.Person>();
 
     public function new () {};
+
+
+	public function generateCharacters (num:Int = 6) {
+
+
+		for (i in 0...num){
+			var p = story.util.RandomPerson.get();
+			characters.push(p);
+			p.location = this;
+
+		}
+		trace('\n');
+	}
 }

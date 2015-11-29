@@ -54,10 +54,12 @@ class Person implements Entity{
 		o.score = emotionManager.getStrongestEmotion().strength - 3;
 		optionsList.push(o);
 
-		var item = Random.fromArray(inventory);
-		var i = new story.option.DescribeCharactersItem(this,item);
-		i.score = item.rarity;//Random.int(1,10);
-		optionsList.push(i);
+		//var item = Random.fromArray(inventory);
+		for (item in inventory){			
+			var i = new story.option.DescribeCharactersItem(this,item);
+			i.score = Random.int(1,7) * item.rarity;
+			optionsList.push(i);
+		}
 
 		for (item in inventory){
 			item.makeOptions(this,optionsList);

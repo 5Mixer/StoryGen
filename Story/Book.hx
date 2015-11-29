@@ -6,40 +6,50 @@ import ComplexString;
 class Book {
 
 	var allCharacters:Array<story.entity.Person>;
+	var allLocations:Array<story.location.Location>;
 
 	var optionsTaken:List<story.option.Option>; //A log of previosly taken options
 	var options:Array<story.option.Option>;     //The options that are avaliable this turn
 
 	public function new () {
 		allCharacters = new Array<story.entity.Person>();
+		allLocations = new Array<story.location.Location>();
 		options = new Array<story.option.Option>();
 		optionsTaken = new List<story.option.Option>();
 	}
 
 	public function makeStory (){
 		trace('\n --Story Creator Begun --\n\n');
-		generateCharacters(10);
+		generateLocations();
+
+		for (place in allLocations)
+			for (person in place.characters)
+				allCharacters.push(person);
+
+
+
+		for (char in allCharacters){
+			trace("{ Name: "+char.name+", Age: "+char.age+", Gender: "+char.gender+", Location: "+char.location.name+" }; \n");
+		}
 
 		turn();
 	}
 
-	public function generateCharacters (num:Int = 6) {
+	public function generateLocations () {
 		var genericRoom:story.location.Location = new story.location.Location();
 		genericRoom.name = "room";
 		genericRoom.adjectives = ["large","empty","white","plain"];
+		genericRoom.generateCharacters(5);
+		allLocations.push(genericRoom);
 
-		for (i in 0...num){
-			var p = story.util.RandomPerson.get();
-			genericRoom.characters.push(p);
-			p.location = genericRoom;
-			allCharacters.push(p);
-		}
-
-		for (char in allCharacters){
-			trace("{ Name: "+char.name+", Age: "+char.age+", Gender: "+char.gender+" }; \n");
-		}
-		trace('\n');
+		var butcher:story.location.Location = new story.location.Location();
+		butcher.name = "butcher";
+		butcher.adjectives = ["busy","small","pink","smelly"];
+		butcher.generateCharacters(5);
+		allLocations.push(butcher);
 	}
+
+
 
 	public function turn () {
 		//Called repeatedly to generate new sentences. First method really called.
@@ -109,16 +119,14 @@ class Book {
 			}
 		}
 
-
-
 		var lastElement = output.elements[output.elements.length-1];
 		var lastChar = lastElement.getPlainText().charAt(lastElement.getPlainText().length);
 		if (lastChar != '!' && lastChar != '.')
 			output.addPlain(". ");
 
-		trace(output.getFancyText()+"\n");
+		trace(output.getFancyText()+" ");
 
-		Sys.sleep(0.5);
+		Sys.sleep(0);
 		turn(); //Repeat
 	}
 

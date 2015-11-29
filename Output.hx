@@ -14,6 +14,7 @@ class Output{
 	private static var textCodes:Map<String,String> = new Map();
 
 	public static function name (name) return ansiColors['name']+name+ansiColors['default'];
+	//public static function name (name) return "<b>"+name+"</b>";
 
 	//This class managers all output.
 	public function new () {
