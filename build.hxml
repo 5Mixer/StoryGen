@@ -14,6 +14,8 @@
 -lib random
 -lib MSignal
 -lib websocket
+-lib tink_core
+-lib tink_lang
 
 -neko Main.n
 -debug

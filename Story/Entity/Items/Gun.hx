@@ -7,6 +7,7 @@ import story.emotion.Emotion;
 import story.emotion.EmotionManager;
 import story.entity.items.Item;
 import story.option.Option;
+import ComplexString;
 
 class Gun extends Item implements Entity implements Describable {
 
@@ -30,7 +31,7 @@ class Gun extends Item implements Entity implements Describable {
 
 				var possesivePronoun = (person.gender == story.entity.Gender.Male)? "his" : "her";
 
-				shootGunOption.onTake = function ():String {
+				shootGunOption.onTake = function ():ComplexString {
 					for (neighborPerson in person.location.characters){
 						if (neighborPerson != person){
 							//Loop through all in room except self
@@ -39,7 +40,7 @@ class Gun extends Item implements Entity implements Describable {
 								neighborPerson.emotionManager.emotions[EmotionType.Scared].strength = 9;
 						}
 					}
-					return "*Gasp!* "+parent.name+" just fired "+possesivePronoun+" gun";
+					return new ComplexString().addPlain("*Gasp!* ").add(new NameElement(person)).addPlain(" just fired ").addPlain(possesivePronoun+" gun");
 				}
 
 				optionsList.push(shootGunOption);

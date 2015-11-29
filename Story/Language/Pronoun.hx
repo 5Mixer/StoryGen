@@ -12,7 +12,7 @@ class Pronoun {
         //IE - Josh saw Luwis. He said hi. You want the focus to be Josh.
         focusEntity = entity;
     }
-    public static function tryPronounOf (entity) {
+    public static function tryPronounOf (entity,changeFocus = true) {
         //This slightly confusing function focuses on an entity and refers a name.
         //If it is already the focus, it returns the entity as a pronoun ('he')
         //If it is not the focus, it sets it as the focus but returns the name, not the pronoun.
@@ -20,7 +20,10 @@ class Pronoun {
         if (focusEntity == entity){
             return entity.pronoun;
         }else{
-            focusEntity = entity;
+			if (changeFocus){
+            	focusEntity = entity;
+			}
+
             return entity.name;
         }
     }

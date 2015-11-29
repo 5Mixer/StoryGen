@@ -1,6 +1,7 @@
 package story.option;
 
 import msignal.Signal;
+import ComplexString;
 
 class Option {
     //Score is an integer between one and ten that decides how likely this option should be taken.
@@ -10,9 +11,9 @@ class Option {
 
     public function new () {}
 
-    dynamic public function onTake ():String{
+    dynamic public function onTake ():ComplexString{
         //Ran when this option is the chosen option
         onTakeSignal.dispatch();
-        return "";
+        return new ComplexString();
     }
 }

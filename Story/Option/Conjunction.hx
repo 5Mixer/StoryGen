@@ -1,5 +1,7 @@
 package story.option;
 
+import ComplexString;
+
 class Conjunction extends story.option.Option{
     var ca:story.option.Option; //Clause (option) A&B
     var cb:story.option.Option;
@@ -13,11 +15,25 @@ class Conjunction extends story.option.Option{
     }
     override public function onTake(){
         super.onTake();
-        var output:String;
-        output = ca.onTake();
-        output += (conjunction);
-        output = capitilise(output);
-        output += cb.onTake();
+        var output:ComplexString = new ComplexString();
+        output.addComplexString (ca.onTake());
+
+		//TODO: Clean below.
+		if (Std.is(output.elements[0], NameElement)){
+			var nameElement = cast(output.elements[0],NameElement);
+
+			//If it is a name element we should not change the pronoun focus while capitilising.
+			nameElement.setPlainText(capitilise(nameElement.getPlainTextWithoutChangingFocus())); //Capitilise first elementaa
+		}else{
+			output.elements[0].setPlainText(capitilise(output.elements[0].getPlainText())); //Capitilise first element
+
+		}
+
+        output.addPlain (conjunction);
+
+
+
+        output.addComplexString(cb.onTake());
         return output;
 
     }
@@ -26,7 +42,6 @@ class Conjunction extends story.option.Option{
 		//TODO: Move to language package
 		var firstChar:String = str.substr(0, 1);
 		var restOfString:String = str.substr(1, str.length);
-
 		return firstChar.toUpperCase()+restOfString.toLowerCase();
 	}
 

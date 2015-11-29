@@ -5,6 +5,7 @@ import story.emotion.EmotionManager;
 import story.language.IndefiniteArticle;
 import story.option.Option;
 import Random;
+import ComplexString;
 
 using Output;
 
@@ -45,8 +46,12 @@ class DescribeCharactersItem extends Option{
             adjectivesAfterFirst += ", "+adjectivesToUse[adjectiveIndex];
         }
 
-        return( story.language.Pronoun.tryPronounOf(owner).name()+" has "+
-                IndefiniteArticle.nextWordIs(adjectivesToUse[0]) +" "
-                +adjectivesToUse[0]+adjectivesAfterFirst+" "+ item.name);
+        return( new ComplexString()
+				.add(new NameElement(owner))
+				.addPlain(" has ")
+				.addPlain(IndefiniteArticle.nextWordIs(adjectivesToUse[0])+" ")
+                .addPlain(adjectivesToUse[0]+adjectivesAfterFirst+" ")
+				//.add(new NameElement(item)));
+				.addPlain(item.name));
     }
 }

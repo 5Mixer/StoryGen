@@ -1,6 +1,7 @@
 package story;
 
 import Sys;
+import ComplexString;
 
 class Book {
 
@@ -17,7 +18,7 @@ class Book {
 
 	public function makeStory (){
 		trace('\n --Story Creator Begun --\n\n');
-		generateCharacters(5);
+		generateCharacters(1);
 
 		turn();
 	}
@@ -82,7 +83,7 @@ class Book {
 		var option = decideOption()[0];
 		var nextBestOption = decideOption()[1];
 
-		var output:String;
+		var output:ComplexString = new ComplexString();
 
 		if (optionsAvaliable > 1 && option.focus == nextBestOption.focus && option.focus != null){
 			var conjunction = new story.option.Conjunction(option,nextBestOption,', ');
@@ -92,16 +93,21 @@ class Book {
 			optionsTaken.add(option);
 			optionsTaken.add(nextBestOption);
 		}else {
-			output = capitilise(option.onTake());
+			var string:ComplexString = option.onTake();
+			output.addComplexString(string);
 			optionsTaken.add(option); //We 'add' it to the end of this 'list', don't push it. (Pushing sets it as first element)
 
+			output.elements[0].setPlainText(capitilise(output.elements[0].getPlainText()));	
 		}
 
-		var lastChar = output.charAt(output.length);
-		if (lastChar != '!' && lastChar != '.')
-			output += ". ";
 
-		trace(output+"\n");
+
+		var lastElement = output.elements[output.elements.length-1];
+		var lastChar = lastElement.getPlainText().charAt(lastElement.getPlainText().length);
+		if (lastChar != '!' && lastChar != '.')
+			output.addPlain(". ");
+
+		trace(output.getFancyText()+"\n");
 
 		Sys.sleep(0.5);
 		turn(); //Repeat
