@@ -45,6 +45,10 @@ using Output;
 		person.location=location;
  		location.characters.push(person);
 
+
+		//MAKE THIS USE AN EVENT MANAGER, THIS IS TIGHTLY COUPLED!!!!!!!!!!!!!!!!!!!!!!!!
+		location.onCharacterEnter.dispatch(person,futureOptions);
+
 		//If there is someone in the room other than yourself, and you are the main character, describe the room.
 		if (location.characters.length > 1 && person == Book.mainCharacter){
 			var describeRoom = new TemporaryOption(2);

@@ -5,6 +5,7 @@ import story.emotion.EmotionManager;
 import story.entity.Entity;
 import story.location.Location;
 import Random;
+import msignal.Signal;
 
 typedef SuitabilityInformation = {
 	public function suitableForPerson (person:story.entity.Person):Int;
@@ -19,6 +20,7 @@ class Person implements Entity{
 	public var emotionManager:EmotionManager;
 	public var optionsUsedIn:Array<story.option.Option>;
 	public var location:Location;
+	public var createOptions = new Signal2 <Array<story.option.Option>,Array<story.option.Option>>();
 
 	public function new (){
 		emotionManager = new EmotionManager();
@@ -49,12 +51,14 @@ class Person implements Entity{
 	}
 
 	public function makeOptions (optionsList:Array<story.option.Option>,futureOptions:Array<story.option.Option>){
+		createOptions.dispatch(optionsList,futureOptions);
+
 		var o = new story.option.StateEmotion(this);
 		o.score = emotionManager.getStrongestEmotion().strength - 3;
 		optionsList.push(o);
 
 		var leave = new story.option.ChangeLocation(this,Random.fromArray(location.accessibleLocations));
-		leave.score = 5;
+		leave.score = 2;
 		optionsList.push(leave);
 
 		//var item = Random.fromArray(inventory);

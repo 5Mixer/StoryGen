@@ -69,9 +69,7 @@ class Book {
 		genericRoom.generateCharacters(2);
 		allLocations.push(genericRoom);
 
-		var butcher:story.location.Location = new story.location.Location();
-		butcher.name = "butcher";
-		butcher.adjectives = ["busy","small","pink","smelly"];
+		var butcher = new story.location.Butchers();
 		butcher.generateCharacters(2);
 		allLocations.push(butcher);
 
