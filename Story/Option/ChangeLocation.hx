@@ -48,7 +48,7 @@ using Output;
 		//If there is someone in the room other than yourself, and you are the main character, describe the room.
 		if (location.characters.length > 1 && person == Book.mainCharacter){
 			var describeRoom = new TemporaryOption(2);
-			describeRoom.score = Random.int(8,9);
+			describeRoom.score = 30;//Random.int(9,10);
 			describeRoom.onTake = function (futureOptions){
 				return new story.option.DescribeRoom(location).onTake(futureOptions);
 			}

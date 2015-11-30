@@ -54,21 +54,33 @@ class Book {
 	}
 
 	public function generateLocations () {
+		var street:story.location.Location = new story.location.Location();
+		street.name = "Main Street";
+		street.adjectives = ["very long","narrow","quiet","old","cracked"];
+
+		street.generateCharacters(1);
+		street.inside = false;
+		allLocations.push(street);
+
+
 		var genericRoom:story.location.Location = new story.location.Location();
 		genericRoom.name = "room";
 		genericRoom.adjectives = ["large","empty","white","plain"];
-		genericRoom.generateCharacters(1);
+		genericRoom.generateCharacters(2);
 		allLocations.push(genericRoom);
 
 		var butcher:story.location.Location = new story.location.Location();
 		butcher.name = "butcher";
 		butcher.adjectives = ["busy","small","pink","smelly"];
-		butcher.generateCharacters(1);
+		butcher.generateCharacters(2);
 		allLocations.push(butcher);
 
-		genericRoom.accessibleLocations.push(butcher);
+		genericRoom.accessibleLocations.push(street);
 
-		butcher.accessibleLocations.push(genericRoom);
+		butcher.accessibleLocations.push(street);
+
+		street.accessibleLocations.push(genericRoom);
+		street.accessibleLocations.push(butcher);
 	}
 
 
@@ -109,7 +121,9 @@ class Book {
 
 					//trace("\n\n\nAvaliable option of type " + Type.getClassName(Type.getClass(option)) + " and focus of "+option.focus.name);
 					//trace("\nPast option of type " + Type.getClassName(Type.getClass(pastOption)) + " and focus of "+pastOption.focus.name);
-
+					if (Type.getClass(option) == story.option.ChangeLocation || Type.getClass(option) == story.option.DescribeRoom){
+						continue;
+					}
 					options.splice(optionsLength-i, 1);
 
 				}
