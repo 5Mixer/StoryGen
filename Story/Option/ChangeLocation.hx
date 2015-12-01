@@ -41,13 +41,20 @@ using Output;
 
         adjective = Random.fromArray(location.adjectives);
 
+		var oldLocation = person.location;
+
 		person.location.characters.remove (person);
 		person.location=location;
  		location.characters.push(person);
 
-
+		var event:story.location.Location.EventEnterLocation = {
+			oldLocation : oldLocation,
+			newLocation : person.location,
+			who : person,
+			futureOptions : futureOptions
+		};
 		//MAKE THIS USE AN EVENT MANAGER, THIS IS TIGHTLY COUPLED!!!!!!!!!!!!!!!!!!!!!!!!
-		location.onCharacterEnter.dispatch(person,futureOptions);
+		location.onCharacterEnter.dispatch(event);
 
 		//If there is someone in the room other than yourself, and you are the main character, describe the room.
 		if (location.characters.length > 1 && person == Book.mainCharacter){

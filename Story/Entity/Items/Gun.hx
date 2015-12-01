@@ -30,7 +30,7 @@ class Gun extends Item implements Entity implements Describable {
 				//This dudes angry man
 				var shootGunOption = new Option();
 				shootGunOption.focus = person;
-				shootGunOption.score = Math.round((person.emotionManager.emotions[EmotionType.Angry].strength/2) +2);
+				shootGunOption.score = Random.int(1,40);//Math.round((person.emotionManager.emotions[EmotionType.Angry].strength/2) +2);
 
 				var possesivePronoun = (person.gender == story.entity.Gender.Male)? "his" : "her";
 
@@ -56,7 +56,7 @@ class Gun extends Item implements Entity implements Describable {
 							evacuateRoom.destroy = function (){
 								futureOptions.remove(evacuateRoom);
 							}
-							evacuateRoom.score = Math.round(neighborPerson.emotionManager.emotions[EmotionType.Scared].strength*(Random.float(0.3,1)));
+							evacuateRoom.score = Random.int(1,40);//Math.round(neighborPerson.emotionManager.emotions[EmotionType.Scared].strength*(Random.float(0.3,1)));
 
 							futureOptions.push(evacuateRoom);
 						}

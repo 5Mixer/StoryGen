@@ -17,17 +17,17 @@ class Conjunction extends story.option.Option{
         super.onTake(futureOptions);
         var output:ComplexString = new ComplexString();
         output.addComplexString (ca.onTake(futureOptions));
-
-		//TODO: Clean below.
-		if (Std.is(output.elements[0], NameElement)){
-			var nameElement = cast(output.elements[0],NameElement);
-
-			//If it is a name element we should not change the pronoun focus while capitilising.
-			nameElement.setPlainText(capitilise(nameElement.getPlainTextWithoutChangingFocus())); //Capitilise first elementaa
-		}else{
-			output.elements[0].setPlainText(capitilise(output.elements[0].getPlainText())); //Capitilise first element
-
-		}
+		// 
+		// //TODO: Clean below.
+		// if (Std.is(output.elements[0], NameElement)){
+		// 	var nameElement = cast(output.elements[0],NameElement);
+		//
+		// 	//If it is a name element we should not change the pronoun focus while capitilising.
+		// 	nameElement.setPlainText(capitilise(nameElement.getPlainTextWithoutChangingFocus())); //Capitilise first elementaa
+		// }else{
+		// 	output.elements[0].setPlainText(capitilise(output.elements[0].getPlainText())); //Capitilise first element
+		//
+		// }
 
         output.addPlain (conjunction);
 

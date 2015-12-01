@@ -26,8 +26,9 @@ class Butchers extends Location{
 		butcher.createOptions.add(butcherOptions);
 	}
 
-	function onCharacterEnterHandler (character:story.entity.Person,futureOptions:Array<story.option.Option>){
-		if (character == story.Book.mainCharacter){
+	function onCharacterEnterHandler (event:story.location.Location.EventEnterLocation){
+
+		if (event.who == story.Book.mainCharacter){
 			var offerMeats = new story.option.TemporaryOption(2);
 			offerMeats.score = 100;
 
@@ -35,8 +36,8 @@ class Butchers extends Location{
 				return new ComplexString()
 							.addPlain("The butcher extends his fat hand, saying 'welcome to my store!'");
 			}
-			offerMeats.destroy = function () futureOptions.remove(offerMeats);
-			futureOptions.push(offerMeats);
+			offerMeats.destroy = function () event.futureOptions.remove(offerMeats);
+			event.futureOptions.push(offerMeats);
 		}
 	}
 

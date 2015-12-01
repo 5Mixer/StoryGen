@@ -4,11 +4,14 @@ interface ComplexStringElement {
 	public function getPlainText ():String;
 	public function setPlainText (text:String):Void;
 	public function getFancyText ():String;
+	public var capital:Bool;
 }
+
+//Method that campitlises element.
 
 class NameElement implements ComplexStringElement {
 	var entity:story.entity.Entity;
-
+	public var capital:Bool = false;
 	public function new (_entity) {
 		entity = _entity;
 	}
@@ -16,7 +19,9 @@ class NameElement implements ComplexStringElement {
 		entity.name = text;
 	}
 	public function getPlainText () {
-		return story.language.Pronoun.tryPronounOf(entity);
+		var text = story.language.Pronoun.tryPronounOf(entity);
+		if (capital) text = story.language.Capitilise.capitilise(text);
+		return text;
 	}
 
 	/* This long named function gets what would be returned from getPlainText, except without
@@ -30,6 +35,7 @@ class NameElement implements ComplexStringElement {
 }
 class LocationElement implements ComplexStringElement {
 	var location:story.location.Location;
+	public var capital:Bool = false;
 
 	public function new (_location) {
 		location = _location;
@@ -38,14 +44,19 @@ class LocationElement implements ComplexStringElement {
 		location.name = text;
 	}
 	public function getPlainText () {
-		return location.name;
+		var text = location.name;
+		if (capital) text = story.language.Capitilise.capitilise(text);
+		return text;
 	}
 	public function getFancyText () {
 		return Output.location(getPlainText());
 	}
 }
+
 class PlainTextElement implements ComplexStringElement {
 	var text:String;
+	public var capital:Bool = false;
+
 	public function new (_text:String) {
 		text = _text;
 	}
@@ -53,6 +64,7 @@ class PlainTextElement implements ComplexStringElement {
 		text = _text;
 	}
 	public function getPlainText () {
+		if (capital) text = story.language.Capitilise.capitilise(text);
 		return text;
 	}
 	public function getFancyText () {

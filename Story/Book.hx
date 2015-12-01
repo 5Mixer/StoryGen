@@ -17,7 +17,11 @@ class Book {
 	//either stay put or remove themselves.
 	var futureOptions:Array<story.option.Option>;
 
+	var street:story.location.Location;
+
 	public static var mainCharacter:story.entity.Person;
+
+	var chapter:Int = 0;
 
 	public static var onAnyOptionFinish = new Signal1<story.option.Option>();
 
@@ -30,11 +34,11 @@ class Book {
 	}
 
 	public function makeStory (){
-		trace('\n --Story Creator Begun --\n\n');
+		trace("--Story Creator Begun --<br/>");
 		generateLocations();
 
 		mainCharacter = story.util.RandomPerson.get();
-		mainCharacter.name = "MainCharacter";
+		mainCharacter.name = "The Main Character";
 		//Because it is in this location, it wil be automagically added to 'allCharacters'
 		mainCharacter.location = allLocations[0];
 		allLocations[0].characters.push(mainCharacter);
@@ -47,18 +51,28 @@ class Book {
 
 		//Give a reading of 'allCharacters'
 		for (char in allCharacters){
-			trace("{ Name: "+char.name+", Age: "+char.age+", Gender: "+char.gender+", Location: "+char.location.name+" }; \n");
+			trace("{ Name: "+char.name+", Age: "+char.age+", Gender: "+char.gender+", Location: "+char.location.name+" }; <br/>");
 		}
+		trace("<br/><br/>");
 
 		turn();
 	}
 
 	public function generateLocations () {
-		var street:story.location.Location = new story.location.Location();
+		street = new story.location.Location();
 		street.name = "Main Street";
 		street.adjectives = ["very long","narrow","quiet","old","cracked"];
 
 		street.generateCharacters(1);
+		street.onCharacterEnter.add(function (event){
+			if (chapter > 149) Sys.exit(0);
+			if (event.who == mainCharacter){
+				if (Random.int(1,100) > 85){
+					optionsTaken = new List<story.option.Option>();
+					trace("\n\n<h2>Chapter "+(++chapter)+"</h2>\n");
+				}
+			}
+		});
 		street.inside = false;
 		allLocations.push(street);
 
@@ -160,24 +174,25 @@ class Book {
 			optionsTaken.add(option); //We 'add' it to the end of this 'list', don't push it. (Pushing sets it as first element)
 
 			//TODO: Clean below.
-			if (Std.is(output.elements[0], NameElement)){
-				var nameElement = cast(output.elements[0],NameElement);
-
-				//If it is a name element we should not change the pronoun focus while capitilising.
-				nameElement.setPlainText(capitilise(nameElement.getPlainTextWithoutChangingFocus())); //Capitilise first elementaa
-			}else{
-				output.elements[0].setPlainText(capitilise(output.elements[0].getPlainText())); //Capitilise first element
-
-			}
+			// if (Std.is(output.elements[0], NameElement)){
+			// 	var nameElement = cast(output.elements[0],NameElement);
+			//
+			// 	//If it is a name element we should not change the pronoun focus while capitilising.
+			// 	nameElement.setPlainText(capitilise(nameElement.getPlainTextWithoutChangingFocus())); //Capitilise first elementaa
+			// }else{
+			// 	output.elements[0].setPlainText(capitilise(output.elements[0].getPlainText())); //Capitilise first element
+			//
+			// }
 		}
-
+		output.elements[0].capital = true;
 
 		var lastElement = output.elements[output.elements.length-1];
 		var lastChar = lastElement.getPlainText().charAt(lastElement.getPlainText().length);
 		if (lastChar != '!' && lastChar != '.')
 			output.addPlain(". ");
 
-		trace(output.getFancyText());
+		var output = output.getFancyText(); //Output contains ASCII crAP.
+		trace(output);
 
 		Sys.sleep(0);
 		turn(); //Repeat
@@ -191,10 +206,31 @@ class Book {
 		return firstChar.toUpperCase()+restOfString.toLowerCase();
 	}
 
+	public function onNoMoreOptions (options:Array<story.option.Option>) {
+		/*if (mainCharacter.location != street){
+			//options.push(new story.option.ChangeLocation(mainCharacter,street));
+
+			optionsTaken = new List<story.option.Option>();
+		}else{
+
+			if (Random.bool()){
+
+			}
+
+
+			optionsTaken = new List<story.option.Option>();
+		}
+		optionsTaken = new List<story.option.Option>();
+		//turn();*/
+		options.push(new story.option.ChangeLocation(mainCharacter,Random.fromArray(mainCharacter.location.accessibleLocations)));
+
+	}
+
 	public function decideOption () {
 
 		if (options[0] == null) {
-			return null;
+			onNoMoreOptions(options);
+			//return null;
 		}
 
 		//Sort all of our options by how good they are.
@@ -210,22 +246,6 @@ class Book {
 		return options;
 	}
 
-	/*public function capitilise (str){
-		//TODO: Move to language package
-		var firstChar:String = str.substr(0, 1);
-
-		var i = 0;
-		while (i < str.length){
-			firstChar = str.substr(i, 1);
-			trace("I: "+i+"  firstChar: "+firstChar+"\n");
-			if (["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"].indexOf(firstChar.toLowerCase()) > 0){
-				break;
-			}
-			i++;
-		}
-
-		var restOfString:String = str.substr(i, str.length);
-	}*/
 
 	public function removeOption (option) {
 		var i = options.length;
