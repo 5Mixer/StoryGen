@@ -1,0 +1,27 @@
+#Set prog start
+-main Main.hx
+
+-cp Story
+-cp Story/Emotion
+-cp Story/Entity
+-cp Story/Entity/Items
+-cp Story/Language
+-cp Story/Location
+-cp Story/Option
+-cp Story/Util
+
+#Libraries
+-lib random
+-lib MSignal
+-lib websocket
+-lib tink_core
+-lib tink_lang
+
+-neko Main.n
+-debug
+-cmd neko Main.n
+
+
+#CPP Compile
+#-cpp bin
+#-cmd /bin/Main.hx

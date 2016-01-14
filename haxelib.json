@@ -1,0 +1,18 @@
+{
+  "name": "StoryGen",
+  "url" : "https://twitter.com/5mixer",
+  "license": "GPL",
+  "tags": ["cross", "api","Story"],
+  "description": "The backend of a Procedural Story Generator",
+  "version": "1.0.0",
+  "classPath": "Backend",
+  "releasenote": "Initial release.",
+  "contributors": ["@5Mixer"],
+  "dependencies": {
+	"random" : "",
+	"msignal" : "",
+	"websocket" : "",
+	"tink_core" : "",
+	"tink_lang" : ""
+  }
+}

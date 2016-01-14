@@ -1,0 +1,33 @@
+{
+
+  project : {
+    name : 'mint test',
+    version : '1.0.0-alpha',
+    author : 'underscorediscovery',
+
+    app : {
+      name : 'minttest',
+      package : 'org.snowkit.mint'
+    },
+
+    build : {
+      dependencies : {
+        luxe : "*",
+        mint : "*",
+        random : "*",
+    	msignal : "*",
+    	websocket : "*",
+    	tink_core : "*",
+    	tink_lang : "*",
+        StoryGen : "*"
+      }
+    },
+
+    files : {
+      assets : 'assets/',
+      config : 'config.json',
+    }
+
+  }
+
+}
